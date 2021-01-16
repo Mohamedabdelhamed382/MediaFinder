@@ -10,32 +10,7 @@ import Foundation
 import Alamofire
 
 class APIManager {
-    static func loadMovies(completion: @escaping (_ error: Error?, _ movies: [Media]?) -> ()) {
-        AF.request("https://api.androidhive.info/json/movies.json",method: .get , parameters: nil , encoding: URLEncoding.default , headers: nil) .response{ response in
-            guard response.error == nil else {
-                print(response.error!)
-                completion(response.error,nil)
-                return
-            }
-            guard let data = response.data else{
-                print("cannot get any data from API  ")
-                return
-            }
-            // for parsing
-            //let decoder = JSONDecoder() // donot need
-            // convert to be array from my class
-            do {
-                let mediaArr = try JSONDecoder().decode([Media].self, from: data)
-                completion(nil,mediaArr)
-                for media in mediaArr{
-                    print(media.artistName, media.trackName ?? "not founed trackName")
-                }
-            }catch(let error){
-                print(error)
-            }
-        }
-    }
-    
+
     static func loadMedia(searchQuery: String, mediaType: String, completion: @escaping (_ error: Error?, _ media: [Media]?) -> ()) {
         
         let parameters = [paramKeys.searchQuery: searchQuery, paramKeys.mediaType: mediaType ]
